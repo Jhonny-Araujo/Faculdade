@@ -1,29 +1,44 @@
 
-:- [bd01],
-    dynamic(resposta/2).
+%inicializa direto na main.
+:- initialization(main).
+
+%Adiciona a base de dados
+:-include("bd01.pl").
+:-include("bd02.pl").
 
 
-pergunta(Duvida,Resposta):-
-    resposta(Resposta,Duvida),!.
+%Busca na Base de dados
+dialogo(Duvida):-
+    resposta(Resposta,Duvida),
+    write(Resposta)
+.
 
-finalizar_conversa(Entrada):-
-    Entrada = bye.
-
-responder(Lista,Resposta):-
-    nth0(0,Lista,Resposta),!.
-
+dialogo(Duvida):-
+    nl,nl,
+    write("Não consegui compreender a sua pergunta"),
+    nl,nl
+.
 
 main:-
-        write("Sou o Sr. Boot, como posso ajuda-lo? (Use ASPAS DUPLAS antes da pergunta)"),
+    nl,
+    nl,
+    write("Sou o Sr. Boot, como posso ajuda-lo? (Use ASPAS DUPLAS para perguntar e ponto final depois das aspas)"),
+    nl,
+    ouvir
+.
 
-    repeat,
-     nl,
-     nl,nl,
-     write("-->"),
-     read(Duvida),
-     pergunta(Duvida,Resposta),
-     nl,
-     write(Resposta),
-     nl.
+%Ler conversa com usario
+ouvir:-
+    nl,nl,
+    write("-->"),
+    read(FALAR),
+    falar(FALAR)
+.
 
+%responde a duvida
+falar(OUVIR):-
+    nl,
+    dialogo(OUVIR),
+    ouvir
+.
 
